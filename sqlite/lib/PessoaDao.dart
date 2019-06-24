@@ -21,29 +21,36 @@ class PessoaDao{
     );
   }
 
+  
   Future<List<String>> pessoas() async {
 
-    /*
-    List<String> retorno = ['teste','merda'];
-
-    return retorno;
-    */
     final Database db = await cnx.iniciar();
 
     final List<Map<String, dynamic>> maps = await db.query('pessoas');
 
     return List.generate(maps.length, (i){
-      return (maps[i]['nome'] + ' ' + maps[i]['sobrenome']);
+      return (maps[i]['id'].toString() + ' - ' + maps[i]['nome'] + ' ' + maps[i]['sobrenome']);
 
     /*
-      return Pessoa(
-        id: maps[i]['id'],
-        nome: maps[i]['nome'],
-        sobrenome: maps[i]['sobrenome'],
-        idade: maps[i]['idade'],
-      );
+    return Pessoa(
+      id: maps[i]['id'],
+      nome: maps[i]['nome'],
+      sobrenome: maps[i]['sobrenome'],
+      idade: maps[i]['idade'],
+    );
 
-      */
+    */
+
     });
+  }
+
+  Future<void> delete(int id) async {
+    final db = await cnx.iniciar();
+
+    await db.delete(
+      'pessoas',
+      where: "id = ?",
+      whereArgs: [id],
+    );
   }
 }

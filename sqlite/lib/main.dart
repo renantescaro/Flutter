@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
+      home: MyHomePage(title: 'Testando SQLite'),
     );
   }
 }
@@ -36,6 +36,8 @@ class _MyHomePageState extends State<MyHomePage> {
   void iniciar(){
     
     /*
+    // Descomente para inserir pessoas no BD
+
     pessoa1.Nome = 'Sasha';
     pessoa1.Sobrenome = 'Grey';
     pessoa1.Idade = 27;
@@ -59,10 +61,10 @@ class _MyHomePageState extends State<MyHomePage> {
         switch (snapshot.connectionState) {
           case ConnectionState.none:
           case ConnectionState.waiting:
-            return new Text('loading...');
+            return new Text('Carregando...');
           default:
             if (snapshot.hasError)
-              return new Text('Error: ${snapshot.error}');
+              return new Text('Erro: ${snapshot.error}');
             else
               return createListView(context, snapshot);
         }
@@ -71,7 +73,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
     return new Scaffold(
       appBar: new AppBar(
-        title: new Text("Home Page"),
+        title: new Text("Pagina Principal"),
       ),
       body: futureBuilder,
     );
