@@ -28,32 +28,9 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   @override
-
-  Pessoa pessoa1 = new Pessoa();
-  Pessoa pessoa2 = new Pessoa();
   PessoaDao pessoaDao = new PessoaDao();
 
-  void iniciar(){
-    
-    /*
-    // Descomente para inserir pessoas no BD
-
-    pessoa1.Nome = 'Sasha';
-    pessoa1.Sobrenome = 'Grey';
-    pessoa1.Idade = 27;
-
-    pessoa2.Nome = 'Thais';
-    pessoa2.Sobrenome = 'Petacular';
-    pessoa2.Idade = 29;
-
-    pessoaDao.insert(pessoa1);
-    pessoaDao.insert(pessoa2);
-    */
-  }
-
   Widget build(BuildContext context) {
-
-    iniciar();
 
     var futureBuilder = new FutureBuilder(
       future: pessoaDao.pessoas(),
@@ -76,23 +53,127 @@ class _MyHomePageState extends State<MyHomePage> {
         title: new Text("Pagina Principal"),
       ),
       body: futureBuilder,
+      drawer: Drawer(
+        child: ListView(
+          children: <Widget>[
+            DrawerHeader(
+              child:Text('Opções'),
+              decoration: BoxDecoration(
+                color: Colors.blue,
+              ),
+            ),
+            ListTile(
+              title: Text('Cad Pessoa'),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => CadPessoa()),
+                );
+              },                                        
+            ),
+            ListTile(
+              title: Text('Opc2'),                                                  
+            ),
+            ListTile(
+              title: Text('Opc3'),                                                  
+            ),
+          ],
+        ),
+      ),
     );
   }
 
   Widget createListView(BuildContext context, AsyncSnapshot snapshot) {
+
+    void abrirPessoa(){
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => CadPessoa()),
+      );
+    }
+
     List<String> values = snapshot.data;
-    return new ListView.builder(
+    return ListView.builder(
         itemCount: values.length,
         itemBuilder: (BuildContext context, int index) {
-          return new Column(
+          return Column(
             children: <Widget>[
-              new ListTile(
-                title: new Text(values[index]),
+              ListTile(
+                title: Text(values[index]),
+                onTap: abrirPessoa,
               ),
-              new Divider(height: 2.0,),
+              Divider(height: 2.0,),
             ],
           );
         },
     );
   }
 }
+
+class CadPessoa extends StatelessWidget {
+      @override
+      Widget build(BuildContext context) {
+
+      final tfNome = new TextEditingController();
+      final tfSobrenome = new TextEditingController();
+      final tfIdade = new TextEditingController();
+
+      void salvar(){
+        Pessoa pessoa = new Pessoa();
+        PessoaDao pessoaDao = new PessoaDao();
+
+        pessoa.Nome = tfNome.text;
+        pessoa.Sobrenome = tfSobrenome.text;
+        pessoa.Idade = int.parse(tfIdade.text);
+
+        pessoaDao.insert(pessoa);
+      }
+
+      return new Scaffold(
+        appBar: new AppBar(
+          title: new Text('Cad Pessoa'),
+        ),
+        body: new Container(
+          padding: new EdgeInsets.all(20),
+          child: new Form(
+            child: new ListView(
+              children: <Widget>[
+                TextField(
+                  controller: tfNome,
+                  decoration: InputDecoration(
+                    hintText: 'Nome'
+                  ),
+                ),
+                TextField(
+                  controller: tfSobrenome,
+                  decoration: InputDecoration(
+                    hintText: 'Sobrenome'
+                  ),
+                ),
+                TextField(
+                  controller: tfIdade,
+                  decoration: InputDecoration(
+                    hintText: 'Idade'
+                  ),
+                ),
+              ],
+            ),
+          )
+        ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            salvar();
+            
+            return showDialog(
+              context: context,
+              builder: (context) {
+                return AlertDialog(
+                  content: Text("Pessoa Salva!"),
+                );
+              },
+            );
+          },
+        ),
+      );
+    }
+  }
