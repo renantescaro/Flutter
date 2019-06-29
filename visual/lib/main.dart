@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'Cadastros.dart';
 import 'Relatorios.dart';
 import 'Lancamentos.dart';
+import 'Vaca.dart';
 
 void main() => runApp(MyApp());
 
@@ -44,8 +45,6 @@ class MyHomePage extends StatelessWidget {
                     color: Colors.white,
                     fontSize: 30.0,
                   )),
-                  
-
 
                 )
               )
@@ -59,13 +58,14 @@ class MyHomePage extends StatelessWidget {
         child: ListView(
           padding: EdgeInsets.zero,
           children: <Widget>[
-            DrawerHeader(
-              child: Text('Sitio Rosa de Saron'),
-              decoration: BoxDecoration(
-                color: Colors.white,
-              ),
+            UserAccountsDrawerHeader(
+              accountName: Text('Sitio Rosa de Saron'),
+              accountEmail: Text('rosadesaron@gmail.com'),
             ),
             ListTile(
+              leading: Icon(
+                Icons.add
+              ),
               title: Text('Cadastros'),
               onTap: () {
                 Navigator.push(
@@ -75,15 +75,21 @@ class MyHomePage extends StatelessWidget {
               },
             ),
             ListTile(
+              leading: Icon(
+                Icons.account_balance
+              ),
               title: Text('Lançamentos'),
               onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => Lancamentos()),
+                  MaterialPageRoute(builder: (context) => Vaca()),
                 );
               },
             ),
             ListTile(
+              leading: Icon(
+                Icons.add_alarm
+              ),
               title: Text('Relatórios'),
               onTap: () {
                 Navigator.push(
