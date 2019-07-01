@@ -1,19 +1,28 @@
 import 'package:flutter/material.dart';
 
-class Vaca extends StatelessWidget{
+class CadReceita extends StatelessWidget{
+
+  void salvar(){
+
+  }
+
+  void excluir(){
+
+  }
+
   @override
   Widget build(BuildContext context){
     return MaterialApp(
       theme: ThemeData(
-        primarySwatch: Colors.green,
+        primarySwatch: Colors.green
       ),
       home: Scaffold(
         appBar: AppBar(
-          title: Text('Cadastro de Vaca'),
+          title: Text('Cadastro de tipo de Receita'),
         ),
         body: Center(
           child: ListView(
-            padding: const EdgeInsets.only(left: 16, right: 16, top:20),
+            padding: const EdgeInsets.only(left: 16, right:16, top:16),
             children: <Widget>[
               TextField(
                 decoration: InputDecoration(
@@ -21,44 +30,28 @@ class Vaca extends StatelessWidget{
                 ),
               ),
               TextField(
-                keyboardType: TextInputType.number,
-                decoration: InputDecoration(
-                  labelText: 'Número brinco'
-                ),
-              ),
-              TextField(
-                keyboardType: TextInputType.datetime,
-                decoration: InputDecoration(
-                  labelText: 'Data Nascimento / Aquisição'
-                ),
-              ),
-              TextField(
-                keyboardType: TextInputType.datetime,
-                decoration: InputDecoration(
-                  labelText: 'Data Cio'
-                ),
-              ),
-              TextField(
                 keyboardType: TextInputType.multiline,
                 maxLines: 3,
                 decoration: InputDecoration(
-                  labelText: 'Observações'
+                  labelText: 'Descrição'
                 ),
               ),
               RaisedButton(
                 child: Text(
                   'Salvar'
                 ),
+                onPressed: salvar,
               ),
               RaisedButton(
                 child: Text(
                   'Excluir'
                 ),
+                onPressed: excluir,
               ),
-            ]
+            ],
           ),
         ),
-      )
+      ),
     );
   }
 }

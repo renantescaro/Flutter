@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class CadReceita extends StatelessWidget{
+class LanPrecoLeite extends StatelessWidget{
 
   void salvar(){
 
@@ -14,24 +14,33 @@ class CadReceita extends StatelessWidget{
   Widget build(BuildContext context){
     return MaterialApp(
       theme: ThemeData(
-        primarySwatch: Colors.green
+        primarySwatch: Colors.green,
       ),
       home: Scaffold(
         appBar: AppBar(
-          title: Text('Cadastro do tipo de Receita'),
+          title: Text('Lançamento Preço do Leite (Mês)'),
         ),
         body: Center(
           child: ListView(
-            padding: const EdgeInsets.only(left: 16, right:16, top:16),
+            padding: const EdgeInsets.only(left: 16, right: 16, top:20),
             children: <Widget>[
               TextField(
+                keyboardType: TextInputType.datetime,
                 decoration: InputDecoration(
-                  labelText: 'Nome'
+                  labelText: 'Data'
                 ),
               ),
               TextField(
+                keyboardType: TextInputType.number,
                 decoration: InputDecoration(
-                  labelText: 'Descrição'
+                  labelText: 'Peço'
+                ),
+              ),
+              TextField(
+                keyboardType: TextInputType.multiline,
+                maxLines: 3,
+                decoration: InputDecoration(
+                  labelText: 'Observações'
                 ),
               ),
               RaisedButton(
@@ -46,10 +55,10 @@ class CadReceita extends StatelessWidget{
                 ),
                 onPressed: excluir,
               ),
-            ],
+            ]
           ),
         ),
-      ),
+      )
     );
   }
 }

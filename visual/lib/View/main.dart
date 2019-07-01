@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'Cadastros.dart';
 import 'Relatorios.dart';
 import 'Lancamentos.dart';
-import 'Vaca.dart';
 
 void main() => runApp(MyApp());
 
@@ -64,7 +63,7 @@ class MyHomePage extends StatelessWidget {
             ),
             ListTile(
               leading: Icon(
-                Icons.add
+                Icons.add_circle_outline,
               ),
               title: Text('Cadastros'),
               onTap: () {
@@ -76,19 +75,19 @@ class MyHomePage extends StatelessWidget {
             ),
             ListTile(
               leading: Icon(
-                Icons.account_balance
+                Icons.launch
               ),
               title: Text('Lançamentos'),
               onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => Vaca()),
+                  MaterialPageRoute(builder: (context) => Lancamentos()),
                 );
               },
             ),
             ListTile(
               leading: Icon(
-                Icons.add_alarm
+                Icons.trending_up
               ),
               title: Text('Relatórios'),
               onTap: () {
