@@ -27,18 +27,15 @@ class CadVaca extends StatelessWidget{
     if(vacaSelecionada != ""){
 
       VacaDao vacaDao = new VacaDao();
-      VacaTab vt;
-      
+      VacaTab vt = new VacaTab();
+
       int corte = vacaSelecionada.indexOf('-');
       vacaSelecionada = vacaSelecionada.substring(0, corte);
 
-      Completer c = new Completer();
+      Vaca temp = await vacaDao.select(vacaSelecionada);
 
-      c.complete(vacaDao.select(vacaSelecionada));
+      vt.abrirCadastro(temp);
 
-      var temp = await c.future;
-
-      vt = new vt.setarCampos(temp);
     }
   }
 
@@ -91,25 +88,23 @@ class leiteTab extends StatefulWidget {
 }
 
 class VacaTab extends State<vacaTab> {
-  
-  Vaca vaca = new Vaca();
 
-  final tfNome = TextEditingController();
-  final tfNumeroBrinco = TextEditingController();
-  final tfDtNascimentoAquisicao = TextEditingController();
-  final tfDtCio = TextEditingController();
-  final tfObservacoes = TextEditingController();
+  Vaca v = new Vaca();
 
-  void setarCampos(vaca){
+  var tfNome = TextEditingController();
+  var tfNumeroBrinco = TextEditingController();
+  var tfDtNascimentoAquisicao = TextEditingController();
+  var tfDtCio = TextEditingController();
+  var tfObservacoes = TextEditingController();
 
-    setState(() {
-      this.vaca = vaca;
-    });
+  abrirCadastro(Vaca vaca){
+ 
+      this.v = vaca;
 
-    tfNome.text = vaca.Nome;
-    tfNumeroBrinco.text = vaca.NumeroBrinco.toString();
-    tfDtNascimentoAquisicao.text = vaca.DtNascimentoAquisicao.toString();
-    tfDtCio.text = vaca.DtCio.toString();
+      tfNome.text = v.Nome;
+      tfNumeroBrinco.text = v.NumeroBrinco.toString();
+      tfDtNascimentoAquisicao.text = v.DtNascimentoAquisicao.toString();
+      tfDtCio.text = v.DtCio.toString();
   }
 
   void salvar(){
@@ -130,11 +125,15 @@ class VacaTab extends State<vacaTab> {
   }
 
   void excluir(){
-
   }
 
   @override
   Widget build(BuildContext context) {
+
+    setState((){
+      
+    });
+
     return ListView(
       padding: const EdgeInsets.only(left: 16, right:16, top:16),
       children: <Widget>[
@@ -193,11 +192,9 @@ class VacaTab extends State<vacaTab> {
 class FilhoTab extends State<filhoTab> {
   
   void salvar(){
-
   }
 
   void excluir(){
-    
   }
 
   @override
@@ -213,18 +210,15 @@ class FilhoTab extends State<filhoTab> {
 class LeiteTab extends State<leiteTab> {
   
   void salvar(){
-
   }
 
   void excluir(){
-    
   }
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
-
       ],
     );
   }
