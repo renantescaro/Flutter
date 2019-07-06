@@ -1,95 +1,65 @@
-import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:visual/Model/VacaDao.dart';
 import 'package:visual/Model/Vaca.dart';
+import 'package:visual/Model/VacaDao.dart';
 
-class CadVaca extends StatelessWidget{
+/*
+void main() => runApp(MyApp());
 
-  void salvar(){
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Flutter Demo',
+      theme: ThemeData(
+        primarySwatch: Colors.red,
+      ),
+      home: CadVaca(""),
+    );
+  }
+}
+*/
 
+String vacaSelec;
+
+class CadVaca extends StatelessWidget {
+
+  CadVaca(String selecionada){
+    vacaSelec = selecionada;
   }
 
-  void excluir(){
-
-  }
-
-  String vacaSelecionada;
-
-  
-  CadVaca(String vacaSelecionada){
-    this.vacaSelecionada = vacaSelecionada;
-
-    main();
-  }
-
-
-  main() async{
-    if(vacaSelecionada != ""){
-
-      VacaDao vacaDao = new VacaDao();
-      VacaTab vt = new VacaTab();
-
-      int corte = vacaSelecionada.indexOf('-');
-      vacaSelecionada = vacaSelecionada.substring(0, corte);
-
-      Vaca temp = await vacaDao.select(vacaSelecionada);
-
-      vt.abrirCadastro(temp);
-
-    }
-  }
+  final views = <Widget>[
+    TabVaca(),
+    TabBezerro(),
+    TabLeite()
+  ];
+  final tabs = <Widget>[
+    Tab(text: 'Vaca'),
+    Tab(text: 'Bezerro'),
+    Tab(text: 'Leite')
+  ];
 
   @override
-  Widget build(BuildContext context){
-    return new DefaultTabController(
-      length: 3,
+  Widget build(BuildContext context) {
+    return DefaultTabController(
+      initialIndex: 0,
+      length: tabs.length,
       child: Scaffold(
         appBar: AppBar(
-          title: Text('Cadastro de Vaca'),
+          title: Text('Tabbar'),
           bottom: TabBar(
-            tabs: <Widget>[
-              Tab(
-                text: "Vaca",
-              ),
-              Tab(
-                text: "Filhos",
-              ),
-              Tab(
-                text: "Leite",
-              ),
-            ]
+            tabs: tabs,
           ),
         ),
-        body: new TabBarView(
-          children: <Widget>[
-            vacaTab(),
-            leiteTab(),
-            filhoTab(),
-          ]
+        body: TabBarView(
+          children: views,
         ),
       ),
     );
   }
 }
 
-class vacaTab extends StatefulWidget {
+class TabVaca extends StatelessWidget { 
   @override
-  VacaTab createState() => new VacaTab();
-}
-
-class filhoTab extends StatefulWidget {
-  @override
-  FilhoTab createState() => new FilhoTab();
-}
-
-class leiteTab extends StatefulWidget {
-  @override
-  LeiteTab createState() => new LeiteTab();
-}
-
-class VacaTab extends State<vacaTab> {
-
-  Vaca v = new Vaca();
 
   var tfNome = TextEditingController();
   var tfNumeroBrinco = TextEditingController();
@@ -97,14 +67,8 @@ class VacaTab extends State<vacaTab> {
   var tfDtCio = TextEditingController();
   var tfObservacoes = TextEditingController();
 
-  abrirCadastro(Vaca vaca){
- 
-      this.v = vaca;
-
-      tfNome.text = v.Nome;
-      tfNumeroBrinco.text = v.NumeroBrinco.toString();
-      tfDtNascimentoAquisicao.text = v.DtNascimentoAquisicao.toString();
-      tfDtCio.text = v.DtCio.toString();
+  TabVaca(){
+    setarVaca(vacaSelec);
   }
 
   void salvar(){
@@ -127,12 +91,24 @@ class VacaTab extends State<vacaTab> {
   void excluir(){
   }
 
-  @override
-  Widget build(BuildContext context) {
+  void setarVaca(vacaSelec) async{
+    if(vacaSelec != "" || vacaSelec != null){
 
-    setState((){
+      VacaDao vacaDao = new VacaDao();
+
+      int corte = vacaSelec.indexOf('-');
+      vacaSelec = vacaSelec.substring(0, corte);
+
+      Vaca v = await vacaDao.select(vacaSelec);
       
-    });
+      tfNome.text = v.Nome;
+      tfNumeroBrinco.text = v.NumeroBrinco.toString();
+      tfDtNascimentoAquisicao.text = v.DtNascimentoAquisicao.toString();
+      tfDtCio.text = v.DtCio.toString();
+    }
+  }
+
+  Widget build(BuildContext context) {
 
     return ListView(
       padding: const EdgeInsets.only(left: 16, right:16, top:16),
@@ -189,37 +165,20 @@ class VacaTab extends State<vacaTab> {
   }
 }
 
-class FilhoTab extends State<filhoTab> {
-  
-  void salvar(){
-  }
-
-  void excluir(){
-  }
-
+class TabBezerro extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: <Widget>[
-
-      ],
+    return Container(
+      
     );
   }
 }
 
-class LeiteTab extends State<leiteTab> {
-  
-  void salvar(){
-  }
-
-  void excluir(){
-  }
-
+class TabLeite extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: <Widget>[
-      ],
+    return Container(
+      
     );
   }
 }
