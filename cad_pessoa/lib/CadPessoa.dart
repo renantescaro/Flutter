@@ -23,6 +23,7 @@ class CadPessoa extends StatefulWidget {
 
 class PagePessoa extends State<CadPessoa>{
 
+  var tfId = new TextEditingController();
   var tfNome = new TextEditingController();
   var tfDtNascimento = new TextEditingController();
   var tfRg = new TextEditingController();
@@ -49,6 +50,7 @@ class PagePessoa extends State<CadPessoa>{
       Pessoa pe = await pessoaDao.select(id);
 
       if(pe != null){
+        tfId.text = pe.Id.toString();
         tfNome.text = pe.Nome;
         tfDtNascimento.text = pe.DtNascimento;
         tfRg.text = pe.Rg;
@@ -62,19 +64,25 @@ class PagePessoa extends State<CadPessoa>{
     Pessoa pessoa = new Pessoa();
     PessoaDao pessoaDao = new PessoaDao();
 
+    pessoa.Id = int.tryParse(tfId.text);
     pessoa.Nome = tfNome.text;
     pessoa.DtNascimento = tfDtNascimento.text;
     pessoa.Rg = tfRg.text;
     pessoa.Cpf = tfCpf.text;
 
-    pessoaDao.insert(pessoa);
+    pessoaDao.save(pessoa);
 
-    tfNome.clear();
-    tfDtNascimento.clear();
-    tfRg.clear();
-    tfCpf.clear();
+    if(tfId.text != ""){
+      Funcoes.mensagem(context,"Pessoa alterada!","Alerta");
+    }else{
+      Funcoes.mensagem(context,"Pessoa inserida!","Alerta");
 
-    Funcoes.showAlertDialog(context,"Pessoa inserida!","Alerta");
+      tfId.clear();
+      tfNome.clear();
+      tfDtNascimento.clear();
+      tfRg.clear();
+      tfCpf.clear();
+    }
   }
 
   @override
@@ -87,6 +95,13 @@ class PagePessoa extends State<CadPessoa>{
         child: ListView(
           padding: const EdgeInsets.only(left: 16, right: 16, top:20),
           children: <Widget>[
+            TextField(
+              enabled: false,
+              decoration: InputDecoration(
+                labelText: 'Código',
+              ),
+              controller: tfId,
+            ),
             TextField(
               decoration: InputDecoration(
                 labelText: 'Nome',

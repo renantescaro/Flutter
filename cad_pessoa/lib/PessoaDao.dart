@@ -21,6 +21,25 @@ class PessoaDao{
     );
   }
 
+  Future<void> update(Pessoa pessoa) async {
+    final Database db = await cnx.iniciar();  
+
+    await db.update(
+      'pessoa',
+      pessoa.toMap(),
+      where: "id = ?",
+      whereArgs: [pessoa.Id],
+    );
+  }
+
+  void save(Pessoa pessoa){
+
+    if(pessoa.Id != null || pessoa.Id != 0){
+      insert(pessoa);
+    }else{
+      update(pessoa);
+    }
+  }
   
   Future<List<String>> pessoas() async {
 
